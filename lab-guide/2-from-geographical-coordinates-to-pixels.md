@@ -1,8 +1,8 @@
 # Step 2: From geographical coordinates to pixels
 Now, lets compute the connection between geographical coordinates and image pixels using real data!
 
-## The Sophus library
-We will use Trym's [pylie](https://github.com/tussedrotten/pylie) to represent poses and orientations.
+## Representing orientations and poses in code
+We will use Trym's [pylie](https://github.com/tussedrotten/pylie) to represent orientations and poses.
 It lets us perform operations on SO(3) and SE(3) matrix Lie groups.
 
 Here are some of the most useful operations available:

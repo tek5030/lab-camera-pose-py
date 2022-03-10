@@ -88,7 +88,7 @@ def run_camera_pose_lab():
 def to_SO3(attitude: Attitude):
     """Convert to SO3 representation."""
 
-    # Todo 1.1: Compute an SO3 representation of the orientation by performing principal rotations.
+    # Todo 1.1: Compute an SO3 representation of the orientation by composing principal rotations.
     return SO3()        # Dummy, replace!
 
 
