@@ -61,7 +61,8 @@ You will need to finish the `to_SO3()` in [lab_camera_pose.py](../lab_camera_pos
 2. Add body axes to the 3D viewer using [`Viewer3D.add_body_axes()`](../viewer_3d.py).
 3. Run the lab. 
    You should see the body axes for each image.
-   Does the result look reasonable?
+   The forward axis (is that *x*, *y* or *z*?) should point approximately towards the next pose.
+   Check also that the other directions (right and down) look reasonable
 
 ## 2. Compute the pose of the camera
 The next step is to convert the camera pose measurements to poses **T**<sub>*lc*</sub> (pose of *F<sub>c</sub>* relative to *F<sub>l</sub>*).
