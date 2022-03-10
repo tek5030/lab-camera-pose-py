@@ -28,6 +28,7 @@ class GeodeticPosition:
     longitude:  float   # Longitude in degrees.
     altitude:   float   # Altitude in meters.
 
+
 @dataclass
 class Intrinsics:
     """Intrinsic camera calibration parameters."""
@@ -67,10 +68,10 @@ class LocalCoordinateSystem:
 
 
 def homogeneous(x):
-    """Transforms a Cartesian vector to a homogeneous vector"""
+    """Transforms Cartesian column vectors to homogeneous column vectors"""
     return np.r_[x, [np.ones(x.shape[1])]]
 
 
 def hnormalized(x):
-    """Transforms a homogeneous vector to a Cartesian vector"""
+    """Transforms homogeneous column vector to Cartesian column vectors"""
     return x[:-1] / x[-1]
