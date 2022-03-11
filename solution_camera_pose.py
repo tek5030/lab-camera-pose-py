@@ -9,7 +9,7 @@ from dataset import Dataset
 from viewer_3d import Viewer3D
 
 
-def run_camera_pose_lab():
+def run_camera_pose_solution():
     # Set up dataset.
     dataset = Dataset()
 
@@ -34,6 +34,7 @@ def run_camera_pose_lab():
 
         # Todo 1.2: Add body coordinate axes to 3d viewer.
         # Add body coordinate axes to the 3D viewer.
+        viewer_3d.add_body_axes(pose_local_body)
 
         # Todo 2: Compute the pose of the camera
         # Todo 2.1: Finish to_vector() below,
@@ -42,13 +43,14 @@ def run_camera_pose_lab():
 
         # Todo 2.2: Construct pose_body_camera correctly using element.
         # Compute the pose of the camera relative to the body.
-        pose_body_camera = SE3()        # Dummy, replace!
+        pose_body_camera = SE3((orientation_body_camera, position_body_camera))
 
         # Todo 2.3: Construct pose_local_camera correctly using the poses above.
-        pose_local_camera = SE3()       # Dummy, replace!
+        pose_local_camera = pose_local_body @ pose_body_camera
 
         # Todo 2.4: Add camera coordinate axes to 3d viewer.
         # Add camera coordinate axes to the 3D viewer.
+        viewer_3d.add_camera_axes(pose_local_camera)
 
         # Todo 3: Undistort the images.
         # Todo 3.1-2: Finish PerspectiveCamera.from_intrinsics() below.
@@ -57,7 +59,7 @@ def run_camera_pose_lab():
 
         # Todo 3.3: Undistort image using the camera model. Why should we undistort the image?
         # Undistort the original image, instead of using it directly.
-        undistorted_img = element.image     # Dummy, replace!
+        undistorted_img = camera_model.undistort_image(element.image)
 
         # Todo 4: Project a geographic world point into the images
         # Todo 4.1: Finish PerspectiveCamera._compute_camera_projection_matrix() below.
@@ -70,6 +72,7 @@ def run_camera_pose_lab():
 
         # Todo 4.3: Add the camera frustum to the 3D viewer.
         # Add the camera frustum with the image to the 3D viewer.
+        viewer_3d.add_camera_frustum(camera_model, undistorted_img)
 
         # Show the image.
         cv2.imshow(window_name, undistorted_img)
@@ -89,14 +92,14 @@ def to_SO3(attitude: Attitude):
     """Convert to SO3 representation."""
 
     # Todo 1.1: Compute an SO3 representation of the orientation by composing principal rotations.
-    return SO3()        # Dummy, replace!
+    return SO3.rot_z(attitude.z_rot) @ SO3.rot_y(attitude.y_rot) @ SO3.rot_x(attitude.x_rot)
 
 
 def to_vector(position: CartesianPosition):
     """Convert to column vector representation."""
 
     # Todo 2.1: Return Cartesian position as a column vector.
-    return np.zeros([3, 1])
+    return np.array([[position.x, position.y, position.z]]).T
 
 
 class PerspectiveCamera:
@@ -127,16 +130,20 @@ class PerspectiveCamera:
         """
 
         # Todo 3.1: Construct the calibration matrix correctly.
-        calibration_matrix = np.identity(3)         # Dummy, replace!
+        calibration_matrix = np.array([
+            [intrinsics.fu, intrinsics.s,   intrinsics.cu],
+            [0.,            intrinsics.fv,  intrinsics.cv],
+            [0.,            0.,             1.]
+        ])
 
         # Todo 3.2: Construct the distortion coefficients on the form [k1, k2, 0, 0, k3].
-        distortion_coeffs = np.zeros([1, 5])        # Dummy, replace!
+        distortion_coeffs = np.array([intrinsics.k1, intrinsics.k2, 0., 0., intrinsics.k3])
 
         return cls(calibration_matrix, distortion_coeffs, pose_world_camera)
 
     def _compute_camera_projection_matrix(self):
         # Todo 4.1: Compute camera projection matrix.
-        return np.identity(4)[:3, :]    # Dummy, replace
+        return self._calibration_matrix @ self._pose_world_camera.inverse().to_matrix()[:3, :]
 
     def project_world_point(self, point_world):
         """Projects a world point into pixel coordinates.
@@ -149,7 +156,7 @@ class PerspectiveCamera:
             point_world = point_world[:, np.newaxis]
 
         # Todo 4.2: Implement projection using camera_projection_matrix_.
-        return np.array([self.calibration_matrix[0, 2], self.calibration_matrix[1, 2]])     # Dummy, replace!
+        return hnormalized(self._camera_projection_matrix @ homogeneous(point_world))
 
     def undistort_image(self, distorted_image):
         """Undistorts an image corresponding to the camera model.
@@ -199,4 +206,4 @@ class PerspectiveCamera:
 
 
 if __name__ == "__main__":
-    run_camera_pose_lab()
+    run_camera_pose_solution()
