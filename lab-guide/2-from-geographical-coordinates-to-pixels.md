@@ -62,7 +62,8 @@ You will need to finish the `to_SO3()` in [lab_camera_pose.py](../lab_camera_pos
 3. Run the lab. 
    You should see the body axes for each image.
    The forward axis (is that *x*, *y* or *z*?) should point approximately towards the next pose.
-   Check also that the other directions (right and down) look reasonable
+   Check also that the other directions (right and down) look reasonable.
+   - Tip: Point the mouse at an object and press 'f' to focus on that object.
 
 ## 2. Compute the pose of the camera
 The next step is to convert the camera pose measurements to poses **T**<sub>*lc*</sub> (pose of *F<sub>c</sub>* relative to *F<sub>l</sub>*).
