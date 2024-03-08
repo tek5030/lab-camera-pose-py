@@ -1,5 +1,5 @@
 # Step 2: From geographical coordinates to pixels
-Now, lets compute the connection between geographical coordinates and image pixels using real data!
+Now, let's compute the connection between geographical coordinates and image pixels using real data!
 
 ## Representing orientations and poses in code
 We will use Trym's [pylie](https://github.com/tussedrotten/pylie) to represent orientations and poses.
