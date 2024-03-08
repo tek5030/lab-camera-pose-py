@@ -74,7 +74,7 @@ class Viewer3D:
         pyramid = pv.Pyramid([point_bottom_left, point_bottom_right, point_top_left, point_top_right, point_focal])
         pyramid.transform(S)
 
-        rectangle = pv.Rectangle([point_bottom_left, point_bottom_right, point_top_left, point_top_right])
+        rectangle = pv.Rectangle([point_bottom_left, point_bottom_right, point_top_left])
         rectangle.texture_map_to_plane(inplace=True)
         rectangle.transform(S)
 
