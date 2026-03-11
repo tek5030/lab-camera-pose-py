@@ -128,3 +128,6 @@ Cool, right?
 ## Extra
 - Alter `PerspectiveCamera.project_world_point()` so that you can project a matrix of column vectors of points, and project other geographical points into the images (see www.norgeskart.no).
 - Create a virtual camera and project points into this camera.
+- Make the virtual camera point away from Holmenkollen. What happens when projecting the points into this camera?
+- How can we check whether a point is in front of the camera or behind it?
+
